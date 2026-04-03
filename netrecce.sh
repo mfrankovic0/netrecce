@@ -85,6 +85,13 @@ ping_test () {
     fi
 }
 
+trace_parse () {
+    mapfile -t hops < <(traceroute $host | awk "$awk_parse")
+    for hop in "${hops[@]}"; do
+        echo "$hop"
+    done
+}
+
 main () {
     while true; do
         input
@@ -93,13 +100,6 @@ main () {
         fi  
     done
     trace_parse
-}
-
-trace_parse () {
-    mapfile -t hops < <(traceroute $host | awk "$awk_parse")
-    for hop in "${hops[@]}"; do
-        echo "$hop"
-    done
 }
 
 main
